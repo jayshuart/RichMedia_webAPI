@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+        
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+        
+        #search{
+            box-shadow:inset 0px 1px 0px 0px #f7c5c0;
+            background:linear-gradient(to bottom, #fc8d83 5%, #e4685d 100%);
+            background-color:#fc8d83;
+            border-radius:6px;
+            border:1px solid #d83526;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-size:15px;
+            font-weight:bold;
+            padding:6px 24px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #b23e35;
+            margin-right:2em;
+
+             position: absolute;
+            top: 70px;
+            left: 10px;
+        }
+
+        #search:hover {
+            background:linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
+            background-color:#e4685d;
+        }
+
+        #search:active{
+            top: 71px;
+        }
+
+        #searchterm{
+            font-size:16px;
+            position: absolute;
+            top: 110px;
+            left: 10px;
+        }
+        
+        #floater{
+            position: absolute;
+            top: 200px;
+            left 200px;
+        }
+        
+        #dynamicContent{
+            position: absolute;
+            left: 200px;
+        }
+    </style>
+      
+       <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.js"></script>
+      <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/jquery-ui.js"></script>
+      <script src = "tumblr.js"></script>
+  </head>
+  <body>
+      <button type="button" id="search">Get Posts<br /></button>
+      <input id="searchterm" type="text" size="40" maxlength="20" autofocus value="" /> 
+      <div id = "floater"> </div>
+      <div id = "dynamicContent"> </div>
+  </body>
+</html>
