@@ -9,6 +9,8 @@ window.onload = init;
 //INIT -------------------------------------------------------------------------------------------------------
 function init() 
 {
+    console.log("tumblr.js loaded");
+    
     //button event listeners
     document.querySelector("#search").onclick = search;
   }
@@ -16,18 +18,57 @@ function init()
 //HELPER FUNCTIONS ------------------------------------------------------------------------------------------
 function search()
 {
+    console.log("button pressed");
     //get search term
     var searchTerm = document.querySelector("#searchterm").value;
     
     //run ajax json request for data
     $.ajax({
-        url: "https://api.tumblr.com/v2/blog/notquitedocile.tumblr.com/posts/photo?" + "api_key=" + TUMBLR_KEY + "&tag=" + searchTerm,
+        url: "https://api.tumblr.com/v2/tagged?tag=" + searchTerm + "&api_key=" + TUMBLR_KEY,
         dataType: 'jsonp',
-        success: jsonGetImages
+        success: getText
     });
 }
 
-function jsonGetImages(obj)
+function getText(obj)
+{
+    // if there are no results, print a message and return
+    if(obj.total_items == 0){
+        var status = "No results found";
+        document.querySelector("#dynamicContent").innerHTML = "<p><i>" + status + "</i><p>" + "<p><i>";
+        $("#dynamicContent").fadeIn(500);
+        return; // Bail out
+    }
+    
+    console.log("getting text posts");
+    
+    //loop through data and save all the images
+    var html = "<div>";
+    var posts = obj.response; //all posts
+    for (var i = 0; i < posts.length; i++){
+        //save current image
+        var post = posts[i];
+        
+        //check if its a photo, if not bail
+        if(post.type == "text")
+        {
+            var summary = post.body;
+            var link = post.post_url;
+
+            //print in console image and add its url to list on page
+            html += "<div id = 'post'>";
+            html += "<a href = \"" + link + "\">" + summary +  "</a></p>";
+            html += "</div>";
+        }
+        
+        
+    }
+     html += "</div>";
+    //update dyanmic content
+    document.querySelector("#dynamicContent").innerHTML = html;
+}
+
+function getImages(obj)
 {
     
     // if there are no results, print a message and return
@@ -38,28 +79,35 @@ function jsonGetImages(obj)
         return; // Bail out
     }
     
-    //start making html doc
-    var html = "<div> ";
+    console.log("getting image posts");
     
     //loop through data and save all the images
-    var posts = obj.response.posts; //all posts
+    var html = "<div>";
+    var posts = obj.response; //all posts
     for (var i = 0; i < posts.length; i++){
         //save current image
         var post = posts[i];
         
-        var summary = post.summary;
-        var imagePerma = post.image_permalink;
-        var photo = post.photos[0].original_size; //get photo object
-        
-        //print in console image and add its url to list on page
-        console.log(photo.url);
-        html += "<p><img src = \"" + photo.url + "\"></img> <br />";
-        html += "<a href = \"" + imagePerma + "\">" + summary +  "</a></p>";
-        
+        //check if its a photo
+        if(post.type == "photo")
+        {
+            var summary = post.summary;
+            var imagePerma = post.image_permalink;
+            var photo = post.photos[0].original_size; //get photo object
+
+            //print in console image and add its url to list on page
+            html += "<div id = 'post'>";
+            html += "<p><img src = \"" + photo.url + "\"></img> <br />";
+            html += "<a href = \"" + imagePerma + "\">" + summary +  "</a></p>";
+            html += "</div>";
+
+            console.log(i);
+        }     
     }
     
-    //close html doc
     html += "</div>";
+    
+    console.log(html);
     
     //update dyanmic content
     document.querySelector("#dynamicContent").innerHTML = html;
