@@ -19,15 +19,57 @@ function init()
 function search()
 {
     console.log("button pressed");
-    //get search term
-    var searchTerm = document.querySelector("#searchterm").value;
+    
+    //re structure search term to account for spaces
+    var searchTerm = document.querySelector("#searchterm").value; //get search term
+    searchTerm = searchTerm.trim(); //remove trailing spaces
+    if(searchTerm.length < 1) return; //bail out if its a blank search
+    searchTerm = encodeURI(searchTerm); //get ride fo sapces
     
     //run ajax json request for data
     $.ajax({
-        url: "https://api.tumblr.com/v2/tagged?tag=" + searchTerm + "&api_key=" + TUMBLR_KEY,
+        url: "https://api.tumblr.com/v2/tagged?tag=" + searchTerm + "&?limit=200" + "&api_key=" + TUMBLR_KEY,
         dataType: 'jsonp',
-        success: getText
+        success: getAudio
     });
+}
+
+function getAudio(obj)
+{
+    // if there are no results, print a message and return
+    if(obj.total_items == 0){
+        var status = "No results found";
+        document.querySelector("#dynamicContent").innerHTML = "<p><i>" + status + "</i><p>" + "<p><i>";
+        $("#dynamicContent").fadeIn(500);
+        return; // Bail out
+    }
+    
+    console.log("getting audio posts");
+    
+    //loop through data and save all the images
+    var html = "<div>";
+    var posts = obj.response; //all posts
+    for (var i = 0; i < posts.length; i++){
+        //save current image
+        var post = posts[i];
+        
+        //check if its a photo, if not bail
+        if(post.type == "audio")
+        {
+            var summary = post.summary;
+            var link = post.source_url;
+
+            //print in console image and add its url to list on page
+            html += "<div id = 'post'>";
+            html += "<a href = \"" + link + "\">" + summary +  "</a></p>";
+            html += "</div>";
+        }
+        console.log(i);
+   
+    }
+     html += "</div>";
+    //update dyanmic content
+    document.querySelector("#dynamicContent").innerHTML = html;
 }
 
 function getText(obj)
