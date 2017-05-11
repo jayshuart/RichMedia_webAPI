@@ -26,12 +26,67 @@ function search()
     if(searchTerm.length < 1) return; //bail out if its a blank search
     searchTerm = encodeURI(searchTerm); //get ride fo sapces
     
-    //run ajax json request for data
-    $.ajax({
-        url: "https://api.tumblr.com/v2/tagged?tag=" + searchTerm + "&?limit=200" + "&api_key=" + TUMBLR_KEY,
-        dataType: 'jsonp',
-        success: getAudio
-    });
+    //switch statement for special searches
+    switch(searchTerm)
+    {
+        case "shit%20post": //WE WANT THE SHIT POSTS
+            //run ajax json request for data
+            $.ajax({
+                url: "https://api.tumblr.com/v2/blog/shitpostgenerator.tumblr.com/posts/text?api_key=" + TUMBLR_KEY,
+                dataType: 'jsonp',
+                data:
+                    'limit = 50',
+                success: getShitPost
+            });
+                    break;
+        default:
+            //run ajax json request for data
+            $.ajax({
+                url: "https://api.tumblr.com/v2/tagged?tag=" + searchTerm + "&?limit=200" + "&api_key=" + TUMBLR_KEY,
+                dataType: 'jsonp',
+                data:
+                    'limit = 50',
+                success: getAudio
+            });
+            break;
+    }
+    
+    
+}
+
+function getShitPost(obj)
+{
+    //shitpostgenerator.tumblr.com
+     // if there are no results, print a message and return
+    if(obj.total_items == 0){
+        var status = "No results found";
+        document.querySelector("#dynamicContent").innerHTML = "<p><i>" + status + "</i><p>" + "<p><i>";
+        $("#dynamicContent").fadeIn(500);
+        return; // Bail out
+    }
+    
+    console.log("getting shit posts");
+    
+    //loop through data and save all the shit posts
+    var html = "<div>";
+    var posts = obj.response.posts; //all posts
+    for (var i = 0; i < posts.length; i++){
+        //save current image
+        var post = posts[i];
+        
+        var summary = post.body;
+        var link = post.source_url;
+
+        //print in console image and add its url to list on page
+        html += "<div id = 'post'>";
+        html += "<a href = \"" + link + "\">" + summary +  "</a></p>";
+        html += "</div>";
+        
+        console.log(i);   
+    }
+     html += "</div>";
+    //update dyanmic content
+    document.querySelector("#dynamicContent").innerHTML = html;
 }
 
 function getAudio(obj)
