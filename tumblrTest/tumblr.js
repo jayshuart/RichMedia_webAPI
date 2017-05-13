@@ -31,7 +31,7 @@ function search()
     //switch statement for special searches
     switch(searchTerm)
     {
-        case "shit%20post": //WE WANT THE SHIT POSTS
+        case "!shitPost": //WE WANT THE SHIT POSTS
             //run ajax json request for data
             $.ajax({
                 url: "https://api.tumblr.com/v2/blog/shitpostgenerator.tumblr.com/posts/text?api_key=" + TUMBLR_KEY,
@@ -41,6 +41,15 @@ function search()
                 success: getShitPost
             });
                     break;
+            
+        case "!sing":
+            //run ajax json request for data
+            $.ajax({
+                url: "https://api.tumblr.com/v2/blog/favoritelittlelyrics.tumblr.com/posts/photo?api_key=" + TUMBLR_KEY,
+                dataType: 'jsonp',
+                success: getLyricImage
+            });
+            break;
         default:
 
             //run ajax json request for data
@@ -90,6 +99,40 @@ function getShitPost(obj)
      html += "</div>";
     //update dyanmic content
     document.querySelector("#dynamicContent").innerHTML = html;
+}
+
+function getLyricImage(obj)
+{
+    // if there are no results, print a message and return
+    if(obj.total_items == 0){
+        var status = "No results found";
+        document.querySelector("#dynamicContent").innerHTML = "<p><i>" + status + "</i><p>" + "<p><i>";
+        $("#dynamicContent").fadeIn(500);
+        return; // Bail out
+    }
+    
+    console.log("getting jams");
+    
+    //loop through data and save all the shit posts
+    var html = "<div>";
+    var posts = obj.response.posts; //all posts
+    for (var i = 0; i < posts.length; i++){
+        //save current image
+        var post = posts[i];
+        
+        var summary = post.summary;
+        var link = post.post_url;
+        var photo = post.photos[0].original_size; //get photo object
+
+        //print in console image and add its url to list on page
+        html += "<div id = 'post'>";
+        html += "<img src = \"" + photo.url + "\"></img> <br />";
+        html += "<a href = \"" + link + "\">" + summary +  "</a>";
+        html += "</div>";   
+    }
+     html += "</div>";
+    //update dyanmic content
+    document.querySelector("#dynamicContent").innerHTML = html; 
 }
 
 function getPost(obj, postTypes)
@@ -150,7 +193,7 @@ function getPost(obj, postTypes)
                     
                 case 'photo':
                     var summary = post.summary;
-                    var ilink = post.post_url;
+                    var link = post.post_url;
                     var photo = post.photos[0].original_size; //get photo object
 
                     //print in console image and add its url to list on page
