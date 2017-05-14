@@ -2,6 +2,7 @@
 //Tumblr APi Junk - Authenticate via API Key
 var TUMBLR_KEY = 'k6DUG106XWBV2bBc7tUBH8cBcU1s6K8cU0Ft1cRgz4B8fBpq2J';
 var posts = {};
+var types;
 var images;
 
 window.onload = init;
@@ -26,7 +27,20 @@ function search()
     if(searchTerm.length < 1) return; //bail out if its a blank search
     searchTerm = encodeURI(searchTerm); //get ride fo sapces
     
-    var types = ['text', 'photo'];
+    //check for types
+    if(document.querySelector("#postTypes").value == "")
+    {
+        //no given type do all
+        types = ['text', 'photo', 'audio'];    
+    }
+    else
+    {
+        //save given post types
+        var str = document.querySelector("#postTypes").value;
+        str = str.trim(); //remove trailing spaces
+        types = str.split(' ');
+    }
+    
     
     //switch statement for special searches
     switch(searchTerm)
