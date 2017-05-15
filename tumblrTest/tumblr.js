@@ -10,7 +10,6 @@ window.onload = init;
 //INIT -------------------------------------------------------------------------------------------------------
 function init() 
 {
-    console.log("tumblr.js loaded");
     
     //button event listeners
     document.querySelector("#search").onclick = search;
@@ -19,7 +18,6 @@ function init()
 //HELPER FUNCTIONS ------------------------------------------------------------------------------------------
 function search()
 {
-    console.log("button pressed");
     
     //re structure search term to account for spaces
     var searchTerm = document.querySelector("#searchterm").value; //get search term
@@ -91,8 +89,6 @@ function getShitPost(obj)
         return; // Bail out
     }
     
-    console.log("getting shit posts");
-    
     //loop through data and save all the shit posts
     var html = "<div>";
     var posts = obj.response.posts; //all posts
@@ -107,8 +103,7 @@ function getShitPost(obj)
         html += "<div id = 'post'>";
         html += "<a href = \"" + link + "\">" + summary +  "</a></p>";
         html += "</div>";
-        
-        console.log(i);   
+         
     }
      html += "</div>";
     //update dyanmic content
@@ -125,7 +120,6 @@ function getLyricImage(obj)
         return; // Bail out
     }
     
-    console.log("getting jams");
     
     //loop through data and save all the shit posts
     var html = "<div>";
@@ -159,7 +153,6 @@ function getPost(obj, postTypes)
         return; // Bail out
     }
     
-    console.log("getting posts");
     
     
     //loop through data and save all the images
