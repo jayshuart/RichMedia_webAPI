@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Simple Map</title>
+    <title>Discord Helpr</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
 
@@ -15,10 +15,61 @@
       /* Optional: Makes the sample page fill the window. */
       html, body {
         height: 100%;
-        margin: 0;
+        width: 100%;
         padding: 0;
+          
+        background-color: #222222;
+	    color: #bfbfbf;
       }
+        #tumblr{
+            width: 70%;
+            margin: 0 auto;
+            padding-top: 3px;   
+        }
+        
+        #tumblr a:link
+        {
+            color: #C0C0C0;
+            text-decoration: none;
+        }
 
+        #tumblr a:visited
+        {
+            color: #A0A0A0;
+            text-decoration: none;
+        }
+
+        #tumblr a:hover
+        {
+            text-decoration: underline;
+            color: #FFFFFF;
+        }
+
+        #tumblr a:active
+        {
+            color: #FFFFFF;
+        }
+        
+        #hint{
+            text-align: center;
+        }
+        
+        #post{
+            text-align: center;
+            padding: 15px;
+        }
+        
+        img{
+            width: 100%;
+            display: inline-block;
+        }
+        
+        #discord{
+            width: 70%;
+            margin: 0 auto;
+        }
+        
+        
         
         #search{
             box-shadow:inset 0px 1px 0px 0px #f7c5c0;
@@ -36,8 +87,7 @@
             text-shadow:0px 1px 0px #b23e35;
             margin-right:2em;
 
-             position: absolute;
-            top: 70px;
+
             left: 10px;
         }
 
@@ -47,32 +97,25 @@
         }
 
         #search:active{
-            top: 71px;
+            position: relative;
+            top: 1px;
         }
 
         #searchterm{
             font-size:16px;
-            position: absolute;
-            top: 110px;
+
             left: 10px;
         }
         
         #postTypes{
             font-size:16px;
-            position: absolute;
-            top: 130px;
+
             left: 10px;
         }
         
-        #floater{
-            position: absolute;
-            top: 200px;
-            left 200px;
-        }
-        
         #dynamicContent{
-            position: absolute;
-            left: 350px;
+            left: 10px;
+            
         }
         
         #post{
@@ -88,13 +131,21 @@
       <script src = "tumblr.js"></script>
   </head>
   <body>
-      <button type="button" id="search">Get Posts<br /></button>
-      <input id="searchterm" type="text" size="40" maxlength="20" autofocus value="" /> 
-      <input id="postTypes" type="text" size="40" maxlength="20" autofocus value="" />
-      <div id = "floater"> </div>
-      <div id = "dynamicContent"> </div>
+      <div id = 'discord'>
+          <iframe src="https://discordapp.com/widget?id=311517911124672522&theme=dark" width="350" height="600" allowtransparency="true" frameborder="0"></iframe>
+          <embed height='600' width='600' src='https://widgetbot.voakie.com/widget/index.html?g=311517911124672522&c=311517911124672522&sCN=true&sGI=true&bS=small&t=dark'>
+      </div>
+      <div id = 'tumblr'>
+          <button type="button" id="search">Get Posts<br /></button>
+          Search: <input id="searchterm" type="text" size="40" maxlength="20" autofocus value="" /> 
+            Post Type: <input id="postTypes" type="text" size="35" maxlength="20" autofocus value="" />
+          <p id = 'hint'> Post Type example: text photo audio <br />
+              Seperate types by spaces <br />
+              [text, photo, and audio are only valid types]
+          </p>
+          <div id = "dynamicContent"> </div>
+      </div>
       
-<embed height='400' width='400' src='https://widgetbot.voakie.com/widget/index.html?g=311517911124672522&c=311517911124672522&sCN=true&sGI=true&bS=small&t=dark'>
 
 </body>
 
